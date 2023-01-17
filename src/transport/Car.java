@@ -15,10 +15,14 @@ public class Car {
     private String carNumber;
     private final int quantityOfSeats;
     private boolean winterTires;
+    private Key key;
+
+
 
     public Car(String brand, String model, double engineVolume,
                String color, int year, String country, String transmission,
-               String carBody, String carNumber, int quantityOfSeats, boolean winterTires) {
+               String carBody, String carNumber, int quantityOfSeats, boolean winterTires,
+               Key key) {
         this.brand = CheckUtility.checkBrand(brand);
         this.model = CheckUtility.checkModel(model);
         this.engineVolume = CheckUtility.checkEngineVolume(engineVolume);
@@ -30,16 +34,33 @@ public class Car {
         this.carNumber = checkCarNumber(carNumber);
         this.quantityOfSeats = quantityOfSeats <= 0 ? 5 : quantityOfSeats;
         this.winterTires = winterTires;
+        setKey(key);
 
 
-    } private class Key {
+    } public static class Key {
+        public Key(boolean remoteStart, boolean freeAccess) {
+        this.remoteStart = remoteStart;
+        this.freeAccess = freeAccess;
+    }
+        private final boolean remoteStart;
+        private final boolean freeAccess;
 
-        void openCar () {
-            System.out.println("Безключевой доступ");
+        public boolean isRemoteStart() {
+            return remoteStart;
         }
-        void startEngine () {
-            System.out.println("Удаленный запуск двигателя");
+
+        public boolean isFreeAccess() {
+            return freeAccess;
         }
+
+        @Override
+        public String toString() {
+            return (remoteStart ? "Удааленный запуск двигателя":"Без удаленного запуска") + ", " +
+                    (freeAccess ? "Бесключевой доступ":"Доступ с ключом");
+        }
+
+
+
     }
 
     public void changeTyres(int month){
@@ -115,7 +136,16 @@ public class Car {
     public int getQuantityOfSeats() {
         return quantityOfSeats;
     }
+    public Key getKey() {
+        return key;
+    }
 
+    public void setKey(Key key) {
+        if (key == null){
+            key = new Key (false, false);
+        }
+        this.key = key;
+    }
     @Override
     public String toString() {
         return brand + ", " +
@@ -128,21 +158,12 @@ public class Car {
                 carBody + ", " +
                 carNumber + ", " +
                 quantityOfSeats + ", " +
-                winterTires + ".";
+                winterTires + ", " +
+                key;
     }
 
     public void print() {
         System.out.println(this);
-    }
-    public void open(){
-        Key key = new Key();
-        key.openCar();
-
-    }
-
-    public void start(){
-        Key key = new Key();
-        key.startEngine();
     }
 
 
