@@ -1,15 +1,12 @@
 package transport;
 
+import java.util.regex.Pattern;
+
 import static transport.CheckUtility.*;
 
-public class Car {
+public class Car extends Transport {
 
-    private final String brand;
-    private final String model;
     private double engineVolume;
-    private String color;
-    private final int year;
-    private final String country;
     private String transmission;
     private final String carBody;
     private String carNumber;
@@ -19,16 +16,14 @@ public class Car {
 
 
 
-    public Car(String brand, String model, double engineVolume,
-               String color, int year, String country, String transmission,
-               String carBody, String carNumber, int quantityOfSeats, boolean winterTires,
+    public Car(String brand, String model,
+               int year, String country, String color,int maxSpeed,
+               double engineVolume, String transmission,
+               String carBody, String carNumber, int quantityOfSeats,
+               boolean winterTires,
                Key key) {
-        this.brand = CheckUtility.checkBrand(brand);
-        this.model = CheckUtility.checkModel(model);
+        super(brand, model, year, country,color, maxSpeed);
         this.engineVolume = CheckUtility.checkEngineVolume(engineVolume);
-        this.color = CheckUtility.checkColor(color);
-        this.year = CheckUtility.checkYear(year);
-        this.country = CheckUtility.checkCountry(country);
         this.transmission = checkTransmission(transmission);
         this.carBody = checkCarBody(carBody);
         this.carNumber = checkCarNumber(carNumber);
@@ -36,8 +31,8 @@ public class Car {
         this.winterTires = winterTires;
         setKey(key);
 
-
-    } public static class Key {
+    }
+    public static class Key {
         public Key(boolean remoteStart, boolean freeAccess) {
         this.remoteStart = remoteStart;
         this.freeAccess = freeAccess;
@@ -59,8 +54,6 @@ public class Car {
                     (freeAccess ? "Бесключевой доступ":"Доступ с ключом");
         }
 
-
-
     }
 
     public void changeTyres(int month){
@@ -72,37 +65,12 @@ public class Car {
         }
     }
 
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
     public double getEngineVolume() {
         return engineVolume;
     }
 
     public void setEngineVolume(double engineVolume) {
         this.engineVolume = engineVolume;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getCountry() {
-        return country;
     }
 
     public String getTransmission() {
@@ -146,26 +114,17 @@ public class Car {
         }
         this.key = key;
     }
+
     @Override
     public String toString() {
-        return brand + ", " +
-                model + ", " +
+        return super.toString() + ", " +
                 engineVolume + ", " +
-                color + ", " +
-                year + ", " +
-                country + ", " +
                 transmission + ", " +
                 carBody + ", " +
                 carNumber + ", " +
                 quantityOfSeats + ", " +
                 winterTires + ", " +
-                key;
+                key + ".";
     }
-
-    public void print() {
-        System.out.println(this);
-    }
-
-
 
 }
